@@ -124,7 +124,7 @@ public class Main {
 
             if (Files.exists(filePath)) {
                 try {
-                    System.out.println("\n\n" + fileName + ": \n\n");
+                    System.out.println("\n" + fileName + ": \n");
                     Files.lines(filePath).forEach(System.out::println);
                 } catch (IOException e) {
                     System.out.println("cat: " + fileName + ": Error reading file");
