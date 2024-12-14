@@ -203,7 +203,9 @@ public class Main {
             return;
         }
         Path existPath = Paths.get(pwd+File.separator+fname[0]);
-        
+        if (fname[1].startsWith("./")) {
+            fname[1] = pwd+fname[1].subSequence(1, fname[1].length());
+        }
         Path newPath = Paths.get(fname[1]+File.separator+fname[0]);
         if (newPath!=null) {
             try {
