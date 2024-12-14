@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File;
 
-public class terminal {
+public class Shell {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String input,typeSubString;
@@ -35,11 +35,24 @@ public class terminal {
                 System.out.println(pwd);
             }else if (input.startsWith("cd")) {
                 String dir = input.substring(3);
-                if (Files.isDirectory(Path.of(dir))&&Files.exists(Path.of(dir))) {
-                    pwd = dir;
+
+                if (dir.startsWith(".")) {
+                    String cdir = input.substring(4);
+                    dir = pwd + cdir;
+                    if (Files.isDirectory(Path.of(dir))&&Files.exists(Path.of(dir))) {
+                        pwd = dir;
+                    }else{
+                        System.out.printf("cd: %s: No such file or directory%n",dir);
+                    }
+
                 }else{
-                    System.out.printf("cd: %s: No such file or directory%n",dir);
+                    if (Files.isDirectory(Path.of(dir))&&Files.exists(Path.of(dir))) {
+                        pwd = dir;
+                    }else{
+                        System.out.printf("cd: %s: No such file or directory%n",dir);
+                    }
                 }
+                
             }else{
                 String command = input.split(" ")[0];
 
