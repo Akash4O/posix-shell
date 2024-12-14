@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
     private static String pwd = Paths.get("").toAbsolutePath().toString();
-    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir"};
+    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv"};
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -39,6 +39,8 @@ public class Main {
                 handleRm(input);
             } else if (input.startsWith("mkdir")) {
                 handleMkdir(input);
+            }else if (input.startsWith("mv")) {
+                handleMv(input);
             }else{
                 handleExternalCommand(input);
             }
@@ -184,14 +186,36 @@ public class Main {
     }
 
     private static void handleRm(String input){
-        String fname = input.substring(3);
-        Path file = Paths.get(fname);
-        try{
-            Files.delete(file);
-            
-        }catch(Exception e){
+        String[] fname = input.substring(3).split(" ");
+        for (int i = 0; i < fname.length; i++) {
+            Path file = Paths.get(fname[i]);
+            try{
+                Files.delete(file);
+                
+            }catch(Exception e){
 
+            }
         }
+        
+    }
+
+    private static void handleMv(String input){
+        String[] fname = input.substring(3).split(" ");
+        if (fname.length>2) {
+            System.out.println("mv: can't pass more than 2 parameters");
+            return;
+        }
+        Path existPath = Paths.get(pwd+File.separator+fname[0]);
+        Path newPath = Paths.get(fname[1]+File.separator+fname[0]);
+        if (newPath!=null) {
+            try {
+                Files.move(existPath, newPath);
+            } catch (Exception e) {
+            }
+        }else{
+            System.out.println("There is no such directory :"+newPath);
+        }
+
     }
 
     private static void handleExternalCommand(String input) throws IOException {
