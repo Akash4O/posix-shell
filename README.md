@@ -1,149 +1,201 @@
-# Java Shell Emulator
+Here’s a detailed and complete `README.md` for your project:
 
-This Java program simulates a basic shell (terminal) environment with commands such as `echo`, `exit`, `type`, `pwd`, `cd`, `cat`, and `ls`. It demonstrates file and directory management, command parsing, and execution of external commands in Java.
+```markdown
+# POSIX-Shell Implementation
+
+## Overview
+
+This project is a Java-based POSIX-like shell implementation, offering support for several basic shell commands. It provides users with an interactive terminal to execute commands for file and directory management, navigation, and text output. The shell also supports handling external commands available in the system's `PATH`.
 
 ---
 
 ## Features
 
-1. **`echo` Command**
-   - Prints the provided input text to the terminal.
-   - Supports both single (`'`) and double (`"`) quotes.
-   - Handles concatenation of quoted strings.
+### Built-In Commands
+The shell includes the following built-in commands:
 
-   **Example:**
+| Command       | Description                                                                 |
+|---------------|-----------------------------------------------------------------------------|
+| `echo`        | Prints a string or message to the console.                                 |
+| `exit 0`      | Exits the shell.                                                           |
+| `type <cmd>`  | Identifies whether the command is built-in or external.                    |
+| `pwd`         | Displays the current working directory.                                    |
+| `cd <dir>`    | Changes the current working directory. Supports relative and absolute paths.|
+| `ls`          | Lists files and directories in the current working directory.              |
+| `cat <file>`  | Displays the contents of a file.                                           |
+| `touch <file>`| Creates an empty file in the current directory.                            |
+| `rm <file>`   | Deletes a file from the current directory.                                 |
+| `mkdir <dir>` | Creates a new directory in the current working directory.                  |
+
+### External Commands
+The shell can execute external system commands if they are available in the system's `PATH`. For example, commands like `java`, `gcc`, or `python` can be executed if installed.
+
+---
+
+## Getting Started
+
+### Prerequisites
+Before running the shell, ensure you have the following installed:
+- **Java Development Kit (JDK)** (version 8 or higher).
+- A terminal or command prompt to run the compiled program.
+
+### Installation
+1. **Clone the Repository**  
+   Clone this repository or download the `Main.java` file directly to your system.
+   ```bash
+   git clone <repository_url>
+   cd <repository_directory>
    ```
-   $ echo "Hello World"
-   Hello World
-   ```
+   (Replace `<repository_url>` with the link to this repository.)
 
-2. **`exit` Command**
-   - Terminates the shell program when the input is `exit 0`.
-
-   **Example:**
-   ```
-   $ exit 0
-   ```
-
-3. **`type` Command**
-   - Checks if the specified parameter is a built-in shell command or a system command.
-   - Displays its type or returns "not found" if the command is unavailable.
-
-   **Example:**
-   ```
-   $ type echo
-   echo is a shell builtin
-
-   $ type ls
-   ls is /bin/ls
-   ```
-
-4. **`pwd` Command**
-   - Prints the current working directory.
-
-   **Example:**
-   ```
-   $ pwd
-   /home/user
-   ```
-
-5. **`cd` Command**
-   - Changes the current working directory.
-   - Supports:
-     - Relative paths (`./`, `../`)
-     - Absolute paths
-     - Home directory (`~`)
-     - Parent directory (`..`)
-   - Displays an error if the directory does not exist.
-
-   **Example:**
-   ```
-   $ cd ../Documents
-   $ pwd
-   /home/user/Documents
+2. **Compile the Program**  
+   Use the `javac` command to compile the `Main.java` file:
+   ```bash
+   javac Main.java
    ```
 
-6. **`cat` Command**
-   - Displays the contents of one or more files in the terminal.
-   - Handles file paths relative to the current working directory.
-
-   **Example:**
-   ```
-   $ cat file1.txt file2.txt
-
-   file1.txt:
-   [contents of file1]
-
-   file2.txt:
-   [contents of file2]
-   ```
-
-7. **`ls` Command**
-   - Lists all files and directories in the current working directory.
-   - Directories are prefixed with a `/`.
-
-   **Example:**
-   ```
-   $ ls
-   /Documents
-   file1.txt
-   file2.txt
-   ```
-
-8. **External Commands**
-   - Executes external system commands by searching the system's `PATH` environment variable.
-
-   **Example:**
-   ```
-   $ grep "search" file.txt
-   [grep output]
+3. **Run the Program**  
+   After compilation, start the shell by executing:
+   ```bash
+   java Main
    ```
 
 ---
 
 ## Usage
 
-1. Compile the program:
-   ```bash
-   javac Main.java
-   ```
-
-2. Run the program:
+1. Launch the program in your terminal:
    ```bash
    java Main
    ```
+2. The shell will display a prompt:
+   ```
+   Welcome to POSIX-Shell. Type 'exit 0' to quit.
+   $
+   ```
+3. Type any supported command and press Enter. For example:
+   - Print a message:
+     ```bash
+     $ echo "Hello, World!"
+     ```
+   - List files in the current directory:
+     ```bash
+     $ ls
+     ```
+   - Navigate to a directory:
+     ```bash
+     $ cd my_directory
+     ```
+   - Display the current working directory:
+     ```bash
+     $ pwd
+     ```
 
-3. Use the shell commands interactively.
+4. To exit the shell, type:
+   ```bash
+   exit 0
+   ```
 
 ---
 
-## Implementation Details
+## Examples
 
-- **File and Directory Management:**
-  - The `java.nio.file` package is used for operations like verifying file existence and handling paths.
-  - Methods like `Files.isDirectory` and `Files.exists` ensure directory and file validity.
+Here are some example commands and their outputs:
 
-- **Command Parsing:**
-  - Input commands are parsed using Java's `String` methods and regular expressions (via the `Pattern` and `Matcher` classes).
+### Echo Command
+```bash
+$ echo "This is a POSIX shell"
+This is a POSIX shell
+```
 
-- **External Command Execution:**
-  - External commands are executed using `Runtime.getRuntime().exec()`.
-  - Output streams are transferred directly to the terminal using `transferTo()`.
+### PWD Command
+```bash
+$ pwd
+/home/user/posix-shell
+```
+
+### LS Command
+```bash
+$ ls
+file1.txt
+dir1/
+file2.java
+```
+
+### CD Command
+```bash
+$ cd dir1
+$ pwd
+/home/user/posix-shell/dir1
+```
+
+### CAT Command
+```bash
+$ cat file1.txt
+Hello, this is a text file.
+```
+
+### Touch Command
+```bash
+$ touch newfile.txt
+File Created Successfully.
+```
+
+### RM Command
+```bash
+$ rm newfile.txt
+```
+
+### MKDIR Command
+```bash
+$ mkdir newdir
+Directory created Successfully!
+```
+
+### External Commands
+```bash
+$ java -version
+openjdk version "17.0.1" 2021-10-19
+```
 
 ---
 
-## Notes
-
-- The program assumes a UNIX-like environment for commands like `ls` and `grep`.
-- Ensure the `PATH` environment variable is correctly set for external command execution.
-- Error handling is implemented for invalid paths, files, or commands.
+## Error Handling
+- If a command is not recognized, the shell displays:
+  ```
+  <command>: command not found
+  ```
+- If a file or directory does not exist, appropriate error messages will be shown, such as:
+  ```
+  cat: myfile.txt: No such file
+  cd: /nonexistent: No such file or directory
+  ```
 
 ---
 
-## Future Enhancements
+## Code Structure
 
-- Add support for piping (`|`) and redirection (`>`, `>>`).
-- Enhance error handling for system-specific scenarios.
-- Add tab completion for commands and paths.
-- Implement more built-in commands like `rm` and `mkdir`.
+- **Main.java**: The primary file containing the logic for the shell. It includes:
+  - Input handling for commands.
+  - Execution of built-in commands.
+  - Handling of external commands using `Runtime.getRuntime()`.
 
+### Key Methods
+- `handleEcho(String input)`: Prints the provided message to the terminal.
+- `handlePwd()`: Prints the current working directory.
+- `handleCd(String input)`: Changes the current working directory.
+- `handleLs()`: Lists all files and directories in the current directory.
+- `handleCat(String input)`: Reads and displays the contents of a file.
+- `handleTouch(String input)`: Creates an empty file.
+- `handleRm(String input)`: Deletes a file.
+- `handleMkdir(String input)`: Creates a directory.
+- `handleExternalCommand(String input)`: Executes commands available in the system's `PATH`.
+
+---
+
+## Limitations
+- The shell does not support piping (`|`) or redirection (`>`/`<`).
+- Limited error messages for external command execution failures.
+- Does not support advanced shell scripting features.
+
+---
