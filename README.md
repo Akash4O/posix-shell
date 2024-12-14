@@ -1,6 +1,4 @@
-Here’s a detailed and complete `README.md` for your project:
 
-```markdown
 # POSIX-Shell Implementation
 
 ## Overview
