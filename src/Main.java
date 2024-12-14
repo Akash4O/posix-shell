@@ -33,6 +33,8 @@ public class Main {
                 handleCat(input);
             } else if (input.startsWith("ls") || input.equals("ls")) {
                 handleLs();
+            } else if (input.startsWith("touch")) {
+                handleTouch(input);
             } else {
                 handleExternalCommand(input);
             }
@@ -148,6 +150,23 @@ public class Main {
                 
             }
         }
+    }
+
+    private static void handleTouch(String input) throws IOException{
+        String command = input.substring(6);
+        File file = new File(pwd+"/"+command);
+        try {
+            boolean isFileCreated = file.createNewFile();
+            if (isFileCreated) {
+                System.out.println("File Created Successfully.");
+            }else{
+                System.out.println("File already exists or an error occured");
+            }
+        } catch (IOException e) {
+            
+        }
+        
+        
     }
 
     private static void handleExternalCommand(String input) throws IOException {
