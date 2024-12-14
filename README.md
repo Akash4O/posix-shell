@@ -108,7 +108,7 @@ ls is a shell builtin
 Exit gracefully from the shell.
 
 ```bash
-$ exit
+$ exit 0
 ```
 
 ---
