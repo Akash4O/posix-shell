@@ -125,17 +125,23 @@ public class Main {
             }else if (input.startsWith("ls")||input.equals("ls")) {
                 File directory = new File(pwd);
                 File[] files = directory.listFiles();
-
+                int count = 0;
                 if (files!=null) {
                     for(File file : files){
                         if (file.isDirectory()) {
-                            System.out.println("/"+file.getName());    
+                            System.out.printf("/"+file.getName()+"\t");    
                         }else{
-                            System.out.println(file.getName());
+                            System.out.printf(file.getName()+"\t\t");
+                        }
+                        count++;
+                        if (count%4==0) {
+                            System.out.println();
+                            System.out.println();
                         }
                         
                     }
                 }
+                System.out.println();
             }
             
             else {
