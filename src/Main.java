@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
     private static String pwd = Paths.get("").toAbsolutePath().toString();
-    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls"};
+    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir"};
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -35,7 +35,11 @@ public class Main {
                 handleLs();
             } else if (input.startsWith("touch")) {
                 handleTouch(input);
-            } else {
+            } else if (input.startsWith("rm")) {
+                handleRm(input);
+            } else if (input.startsWith("mkdir")) {
+                handleMkdir(input);
+            }else{
                 handleExternalCommand(input);
             }
         }
@@ -92,7 +96,7 @@ public class Main {
 
         try {
             if (dir.startsWith("./")) {
-                dir = pwd + "/" + dir.substring(2);
+                dir = pwd + File.separator + dir.substring(2);
             } else if (dir.startsWith("../")) {
                 dir = Path.of(pwd).resolve(dir).normalize().toString();
             } else if (dir.equals("..")) {
@@ -152,9 +156,9 @@ public class Main {
         }
     }
 
-    private static void handleTouch(String input) throws IOException{
+    private static void handleTouch(String input){
         String command = input.substring(6);
-        File file = new File(pwd+"/"+command);
+        File file = new File(pwd+File.separator+command);
         try {
             boolean isFileCreated = file.createNewFile();
             if (isFileCreated) {
@@ -162,11 +166,32 @@ public class Main {
             }else{
                 System.out.println("File already exists or an error occured");
             }
-        } catch (IOException e) {
-            
+        }catch(Exception e){
+
         }
-        
-        
+    }
+
+    private static void handleMkdir(String input){
+        String dirname = input.substring(6);
+        String cwd = pwd+File.separator+dirname;
+        File dir = new File(cwd);
+        boolean isDirectoryCreated = dir.mkdir();
+        if (isDirectoryCreated) {
+            System.out.println("Directory created Successfully!");
+        }else{
+            System.out.println("Failed to Directory!");
+        }
+    }
+
+    private static void handleRm(String input){
+        String fname = input.substring(3);
+        Path file = Paths.get(fname);
+        try{
+            Files.delete(file);
+            
+        }catch(Exception e){
+
+        }
     }
 
     private static void handleExternalCommand(String input) throws IOException {
