@@ -1,198 +1,238 @@
-# POSIX-Shell Implementation
+# POSIX Shell Implementation in Java 🚀
 
-## Overview
+Welcome to the **POSIX Shell** project! This simple shell implementation, written in **Java**, mimics the behavior of a POSIX-like shell, providing essential commands like `echo`, `pwd`, `cd`, `cat`, `ls`, and more. Whether you're an aspiring developer or just looking to explore how shells work, this project is a great way to get hands-on experience!
 
-This project is a Java-based POSIX-like shell implementation, offering support for several basic shell commands. It provides users with an interactive terminal to execute commands for file and directory management, navigation, and text output. The shell also supports handling external commands available in the system's `PATH`.
+## 🌟 Features
+
+This Java-based POSIX shell supports a variety of core commands:
+
+- **Echo**: Display messages with ease.
+- **Pwd**: See where you are in the file system.
+- **Cd**: Navigate through directories like a pro.
+- **Cat**: View file contents instantly.
+- **Ls**: List files and directories in your current location.
+- **Touch**: Create new files effortlessly.
+- **Mkdir**: Generate directories for your projects.
+- **Rm**: Remove files with a single command.
+- **Mv**: Move or rename files and directories.
+- **Type**: Quickly identify if a command is internal or external.
+- **Exit**: Close the shell gracefully.
+
+## 📜 Supported Commands
+
+Here are the basic commands you can use within the shell:
+
+### 1. **`echo [text]`** - Display a message
+Easily print messages or variables to the terminal.
+
+```bash
+$ echo "Hello, World!"
+Hello, World!
+```
+
+### 2. **`pwd`** - Print Working Directory
+This command shows the full path of your current directory.
+
+```bash
+$ pwd
+/Users/username
+```
+
+### 3. **`cd [directory]`** - Change Directory
+Move between directories with ease.
+
+```bash
+$ cd /path/to/directory
+$ pwd
+/path/to/directory
+```
+
+### 4. **`cat [file]`** - Concatenate (Display) File Content
+Quickly view the contents of a file.
+
+```bash
+$ cat file.txt
+This is the content of the file.
+```
+
+### 5. **`ls`** - List Directory Contents
+Get a list of files and directories in the current location.
+
+```bash
+$ ls
+file1.txt  file2.txt  directory1
+```
+
+### 6. **`touch [filename]`** - Create a New File
+Create a new empty file with a simple command.
+
+```bash
+$ touch newfile.txt
+New file created successfully!
+```
+
+### 7. **`mkdir [directory]`** - Make a New Directory
+Easily create new directories for organizing your files.
+
+```bash
+$ mkdir newdir
+Directory created successfully!
+```
+
+### 8. **`rm [filename]`** - Remove a File
+Delete files with a single command.
+
+```bash
+$ rm file1.txt
+file1.txt deleted successfully.
+```
+
+### 9. **`mv [source] [destination]`** - Move or Rename Files
+Move files to new locations or rename them.
+
+```bash
+$ mv file1.txt newdir/
+$ ls newdir
+file1.txt
+```
+
+### 10. **`type [command]`** - Identify Command Type
+Find out whether a command is built-in or external.
+
+```bash
+$ type ls
+ls is a shell builtin
+```
+
+### 11. **`exit`** - Exit the Shell
+Exit gracefully from the shell.
+
+```bash
+$ exit
+```
 
 ---
 
-## Features
+## 🛠️ How to Use
 
-### Built-In Commands
-The shell includes the following built-in commands:
+### Usage Examples
 
-| Command       | Description                                                                 |
-|---------------|-----------------------------------------------------------------------------|
-| `echo`        | Prints a string or message to the console.                                 |
-| `exit 0`      | Exits the shell.                                                           |
-| `type <cmd>`  | Identifies whether the command is built-in or external.                    |
-| `pwd`         | Displays the current working directory.                                    |
-| `cd <dir>`    | Changes the current working directory. Supports relative and absolute paths.|
-| `ls`          | Lists files and directories in the current working directory.              |
-| `cat <file>`  | Displays the contents of a file.                                           |
-| `touch <file>`| Creates an empty file in the current directory.                            |
-| `rm <file>`   | Deletes a file from the current directory.                                 |
-| `mkdir <dir>` | Creates a new directory in the current working directory.                  |
+Here are individual examples showing how to use each command:
 
-### External Commands
-The shell can execute external system commands if they are available in the system's `PATH`. For example, commands like `java`, `gcc`, or `python` can be executed if installed.
+#### 1. `echo` Command
+Use `echo` to display text in the terminal.
+
+```bash
+$ echo "Hello, World!"
+Hello, World!
+```
+
+#### 2. `pwd` Command
+Display your current directory with `pwd`.
+
+```bash
+$ pwd
+/Users/username
+```
+
+#### 3. `cd` Command
+Navigate to a different directory with `cd`.
+
+```bash
+$ cd /path/to/directory
+$ pwd
+/path/to/directory
+```
+
+#### 4. `cat` Command
+View the contents of a file with `cat`.
+
+```bash
+$ cat file.txt
+This is the content of the file.
+```
+
+#### 5. `ls` Command
+List all files and directories in the current directory.
+
+```bash
+$ ls
+file1.txt  file2.txt  directory1
+```
+
+#### 6. `touch` Command
+Create a new empty file with `touch`.
+
+```bash
+$ touch newfile.txt
+File created successfully.
+```
+
+#### 7. `mkdir` Command
+Make a new directory with `mkdir`.
+
+```bash
+$ mkdir newdir
+Directory created successfully.
+```
+
+#### 8. `rm` Command
+Delete a file with `rm`.
+
+```bash
+$ rm file1.txt
+File1.txt deleted successfully.
+```
+
+#### 9. `mv` Command
+Move a file to another directory with `mv`.
+
+```bash
+$ mv file1.txt newdir/
+$ ls newdir
+file1.txt
+```
+
+#### 10. `type` Command
+Check whether a command is built-in or external.
+
+```bash
+$ type ls
+ls is a shell builtin
+```
+
+#### 11. `exit` Command
+Exit the shell using the `exit` command.
+
+```bash
+$ exit
+```
 
 ---
 
-## Getting Started
+## ⚠️ Error Handling
 
-### Prerequisites
-Before running the shell, ensure you have the following installed:
-- **Java Development Kit (JDK)** (version 8 or higher).
-- A terminal or command prompt to run the compiled program.
+- **Moving Files**: If you try to pass more than two arguments to the `mv` command, the shell will display an error:
+  - Example: `mv: can't pass more than 2 parameters`
+- **Directory Issues**: If a directory does not exist when using commands like `mv`, you'll get an error message:
+  - Example: `There is no such directory: [path]`
 
-### Installation
-1. **Clone the Repository**  
-   Clone this repository or download the `Main.java` file directly to your system.
+## 📦 Installation
+
+1. **Clone the Repository**: Start by cloning the repo to your local machine.
+
    ```bash
-   git clone <repository_url>
-   cd <repository_directory>
+   git clone https://github.com/yourusername/posix-shell.git
    ```
-   (Replace `<repository_url>` with the link to this repository.)
 
-2. **Compile the Program**  
-   Use the `javac` command to compile the `Main.java` file:
+2. **Compile the Code**: Next, compile the Java files using the `javac` command.
+
    ```bash
    javac Main.java
    ```
 
-3. **Run the Program**  
-   After compilation, start the shell by executing:
+3. **Run the Shell**: Finally, execute the compiled code with the `java` command.
+
    ```bash
    java Main
    ```
-
----
-
-## Usage
-
-1. Launch the program in your terminal:
-   ```bash
-   java Main
-   ```
-2. The shell will display a prompt:
-   ```
-   Welcome to POSIX-Shell. Type 'exit 0' to quit.
-   $
-   ```
-3. Type any supported command and press Enter. For example:
-   - Print a message:
-     ```bash
-     $ echo "Hello, World!"
-     ```
-   - List files in the current directory:
-     ```bash
-     $ ls
-     ```
-   - Navigate to a directory:
-     ```bash
-     $ cd my_directory
-     ```
-   - Display the current working directory:
-     ```bash
-     $ pwd
-     ```
-
-4. To exit the shell, type:
-   ```bash
-   exit 0
-   ```
-
----
-
-## Examples
-
-Here are some example commands and their outputs:
-
-### Echo Command
-```bash
-$ echo "This is a POSIX shell"
-This is a POSIX shell
-```
-
-### PWD Command
-```bash
-$ pwd
-/home/user/posix-shell
-```
-
-### LS Command
-```bash
-$ ls
-file1.txt
-dir1/
-file2.java
-```
-
-### CD Command
-```bash
-$ cd dir1
-$ pwd
-/home/user/posix-shell/dir1
-```
-
-### CAT Command
-```bash
-$ cat file1.txt
-Hello, this is a text file.
-```
-
-### Touch Command
-```bash
-$ touch newfile.txt
-File Created Successfully.
-```
-
-### RM Command
-```bash
-$ rm newfile.txt
-```
-
-### MKDIR Command
-```bash
-$ mkdir newdir
-Directory created Successfully!
-```
-
-### External Commands
-```bash
-$ java -version
-openjdk version "17.0.1" 2021-10-19
-```
-
----
-
-## Error Handling
-- If a command is not recognized, the shell displays:
-  ```
-  <command>: command not found
-  ```
-- If a file or directory does not exist, appropriate error messages will be shown, such as:
-  ```
-  cat: myfile.txt: No such file
-  cd: /nonexistent: No such file or directory
-  ```
-
----
-
-## Code Structure
-
-- **Main.java**: The primary file containing the logic for the shell. It includes:
-  - Input handling for commands.
-  - Execution of built-in commands.
-  - Handling of external commands using `Runtime.getRuntime()`.
-
-### Key Methods
-- `handleEcho(String input)`: Prints the provided message to the terminal.
-- `handlePwd()`: Prints the current working directory.
-- `handleCd(String input)`: Changes the current working directory.
-- `handleLs()`: Lists all files and directories in the current directory.
-- `handleCat(String input)`: Reads and displays the contents of a file.
-- `handleTouch(String input)`: Creates an empty file.
-- `handleRm(String input)`: Deletes a file.
-- `handleMkdir(String input)`: Creates a directory.
-- `handleExternalCommand(String input)`: Executes commands available in the system's `PATH`.
-
----
-
-## Limitations
-- The shell does not support piping (`|`) or redirection (`>`/`<`).
-- Limited error messages for external command execution failures.
-- Does not support advanced shell scripting features.
-
----
