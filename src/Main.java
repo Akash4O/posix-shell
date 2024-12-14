@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String input, typeSubString;
-        String[] commands = {"echo", "exit", "type", "pwd", "cd"};
+        String[] commands = {"echo", "exit", "type", "pwd", "cd" , "cat" , "ls"};
         String pwd = Paths.get("").toAbsolutePath().toString();
 
         while (true) {
@@ -103,72 +103,42 @@ public class Main {
                 }
 
             } else if (input.startsWith("cat")) {
-                if (!input.substring(4).trim().startsWith("'/")) {
-                    String[] argsArray = input.substring(4).trim().split(" ");
-                    for (String fileName : argsArray) {
-                        if (fileName.startsWith("'") && fileName.endsWith("'")) {
-                            fileName = fileName.substring(1, fileName.length() - 1);
-                        }
-                        Path filePath = Paths.get(pwd, fileName.trim());
-
-                        if (Files.exists(filePath)) {
-                            try {
-                                Files.lines(filePath).forEach(System.out::println);
-                            } catch (IOException e) {
-                                System.out.println("cat: " + fileName + ": Error reading file");
-                            }
-                        } else {
-                            System.out.println("cat: " + fileName + ": No such file");
-                        }
+                String[] argsArray = input.substring(4).trim().split(" ");
+                for (String fileName : argsArray) {
+                    if ((fileName.startsWith("'") && fileName.endsWith("'") )||(fileName.startsWith("\"")&&fileName.endsWith("\""))) {
+                        fileName = fileName.substring(1, fileName.length() - 1);
                     }
-                }else if (!input.substring(4).trim().startsWith("\"")) {
-                    input = input.substring(4).trim();
-                    Pattern pattern = Pattern.compile("\"([^']+)\"");
-                    Matcher matcher = pattern.matcher(input);
+                    Path filePath = Paths.get(pwd, fileName.trim());
 
-                    StringBuilder concatenatedContent = new StringBuilder();
-
-                    while (matcher.find()) {
-                        String filePath = matcher.group(1);  // Get the file path without quotes
-
-                        // Show the contents of the file and concatenate
+                    if (Files.exists(filePath)) {
                         try {
-                            String content = Files.readString(Path.of(filePath));
-                            concatenatedContent.append(content);  // Append content
+                            System.out.println("\n\n"+fileName+": \n\n");
+                            Files.lines(filePath).forEach(System.out::println);
                         } catch (IOException e) {
-                            System.out.println("cat: " + filePath + ": Error reading file");
+                            System.out.println("cat: " + fileName + ": Error reading file");
                         }
+                    } else {
+                        System.out.println("cat: " + fileName + ": No such file");
                     }
-
-                    // Print all concatenated contents
-                    System.out.printf(concatenatedContent.toString());
                 }
                 
-                else {
-                    input = input.substring(4).trim();
+            }else if (input.startsWith("ls")||input.equals("ls")) {
+                File directory = new File(pwd);
+                File[] files = directory.listFiles();
 
-                    // Use regex to match content between single quotes
-                    Pattern pattern = Pattern.compile("'([^']+)'");
-                    Matcher matcher = pattern.matcher(input);
-
-                    StringBuilder concatenatedContent = new StringBuilder();
-
-                    while (matcher.find()) {
-                        String filePath = matcher.group(1);  // Get the file path without quotes
-
-                        // Show the contents of the file and concatenate
-                        try {
-                            String content = Files.readString(Path.of(filePath));
-                            concatenatedContent.append(content);  // Append content
-                        } catch (IOException e) {
-                            System.out.println("cat: " + filePath + ": Error reading file");
+                if (files!=null) {
+                    for(File file : files){
+                        if (file.isDirectory()) {
+                            System.out.println("/"+file.getName());    
+                        }else{
+                            System.out.println(file.getName());
                         }
+                        
                     }
-
-                    // Print all concatenated contents
-                    System.out.printf(concatenatedContent.toString());
                 }
-            } else {
+            }
+            
+            else {
                 String command = input.split(" ")[0];
 
                 String path = getPath(command);
