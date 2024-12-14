@@ -186,15 +186,12 @@ public class Main {
     }
 
     private static void handleRm(String input){
-        String[] fname = input.substring(3).split(" ");
-        for (int i = 0; i < fname.length; i++) {
-            Path file = Paths.get(fname[i]);
-            try{
-                Files.delete(file);
-                
-            }catch(Exception e){
-
-            }
+        String fname = input.substring(3);
+        Path file = Paths.get(pwd+File.separator+fname);
+        try{
+            Files.delete(file);    
+        }catch(Exception e){
+                System.out.println(e+fname);
         }
         
     }
@@ -206,6 +203,7 @@ public class Main {
             return;
         }
         Path existPath = Paths.get(pwd+File.separator+fname[0]);
+        
         Path newPath = Paths.get(fname[1]+File.separator+fname[0]);
         if (newPath!=null) {
             try {
