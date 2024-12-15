@@ -10,7 +10,7 @@ import java.io.FileReader;
 
 public class Main {
     private static String pwd = Paths.get("").toAbsolutePath().toString();
-    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv","rename","cp"};
+    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv","rename","cp","clear"};
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -45,6 +45,8 @@ public class Main {
                 handleRename(input);
             } else if (input.startsWith("cp")) {
                 handleCp(input);
+            } else if (input.equals("clear")) {
+                handleClear(input);
             } else{
                 handleExternalCommand(input);
             }
@@ -257,6 +259,11 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    private static void handleClear(String input){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     private static void handleExternalCommand(String input) throws IOException {
