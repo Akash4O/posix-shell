@@ -231,7 +231,7 @@ public class Main {
         if (isRenamed){
             System.out.println("File Renamed Successfully!");
         } else{
-            System.out.println("File already exists or an error occured");
+            System.out.println("File already exists or an error occurred");
         }
     }
 
