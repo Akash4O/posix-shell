@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.FileReader;
 
 public class Main {
     private static String pwd = Paths.get("").toAbsolutePath().toString();
@@ -25,14 +24,14 @@ public class Main {
                 handleEcho(input);
             } else if (input.startsWith("type")) {
                 handleType(input);
-            } else if (input.equals("pwd")) {
-                handlePwd();
+            } else if (input.startsWith("pwd")) {
+                handlePwd(input);
             } else if (input.startsWith("cd")) {
                 handleCd(input);
             } else if (input.startsWith("cat")) {
                 handleCat(input);
             } else if (input.startsWith("ls")) {
-                handleLs();
+                handleLs(input);
             } else if (input.startsWith("touch")) {
                 handleTouch(input);
             } else if (input.startsWith("rm")) {
@@ -45,8 +44,10 @@ public class Main {
                 handleRename(input);
             } else if (input.startsWith("cp")) {
                 handleCp(input);
-            } else if (input.equals("clear")) {
+            } else if (input.startsWith("clear")) {
                 handleClear(input);
+            } else if (input.equals("--help")) {
+                handleHelp();
             } else{
                 handleExternalCommand(input);
             }
@@ -54,36 +55,66 @@ public class Main {
         scanner.close();
     }
 
+    private  static  void handleHelp(){
+
+        System.out.println("This Java-based POSIX shell supports a variety of core commands: \n");
+        System.out.println("echo: Display messages with ease.");
+        System.out.println("pwd: See where you are in the file system.");
+        System.out.println("cd: Navigate through directories like a pro.");
+        System.out.println("cat: View file contents instantly.");
+        System.out.println("ls: List files and directories in your current location.");
+        System.out.println("touch: Create new files effortlessly.");
+        System.out.println("mkdir: Generate directories for your projects.");
+        System.out.println("rm: Remove files with a single command.");
+        System.out.println("mv: Move or rename files and directories.");
+        System.out.println("type: Quickly identify if a command is internal or external.");
+        System.out.println("rename: Rename a file to the current directory.");
+        System.out.println("cp: Create a copy of a file to the current directory.");
+        System.out.println("clear: Clear the console screen.");
+        System.out.println("exit 0: Close the shell gracefully.\n");
+
+        System.out.println("For more help use '-help' for commands explaination.");
+    }
+
     private static void handleEcho(String input) {
         String content = input.substring(4).trim();
 
-        if (content.startsWith("\"")) {
-            Pattern pattern = Pattern.compile("\"(.*?)\"");
-            Matcher matcher = pattern.matcher(content);
-            StringBuilder concatenatedContent = new StringBuilder();
-            int count = 0;
+        if (content.equals("-help")){
+            System.out.println("Usage: echo <statement>");
+            System.out.println("Echo: Display messages with ease.");
+        }else {
+            if (content.startsWith("\"")) {
+                Pattern pattern = Pattern.compile("\"(.*?)\"");
+                Matcher matcher = pattern.matcher(content);
+                StringBuilder concatenatedContent = new StringBuilder();
+                int count = 0;
 
-            while (matcher.find()) {
-                String match = matcher.group(1);
-                if (count > 0) {
-                    concatenatedContent.append(" ").append(match);
-                } else {
-                    concatenatedContent.append(match);
-                    count++;
+                while (matcher.find()) {
+                    String match = matcher.group(1);
+                    if (count > 0) {
+                        concatenatedContent.append(" ").append(match);
+                    } else {
+                        concatenatedContent.append(match);
+                        count++;
+                    }
                 }
+                content = concatenatedContent.toString();
+            } else if ((content.startsWith("'") && content.endsWith("'")) || (content.startsWith("\"") && content.endsWith("\""))) {
+                content = content.substring(1, content.length() - 1);
+            } else {
+                content = content.replaceAll("\\s+", " ");
             }
-            content = concatenatedContent.toString();
-        } else if ((content.startsWith("'") && content.endsWith("'")) || (content.startsWith("\"") && content.endsWith("\""))) {
-            content = content.substring(1, content.length() - 1);
-        } else {
-            content = content.replaceAll("\\s+", " ");
+            System.out.println(content);
         }
-        System.out.println(content);
     }
 
     private static void handleType(String input) {
         String typeSubString = input.substring(5).trim();
-        if (Arrays.asList(commands).contains(typeSubString)) {
+
+        if (typeSubString.equals("-help")){
+            System.out.println("Usage: type <command>");
+            System.out.println("Type: Quickly identify if a command is internal or external.");
+        } else if (Arrays.asList(commands).contains(typeSubString)) {
             System.out.println(typeSubString + " is a shell builtin");
         } else {
             String path = getPath(typeSubString);
@@ -95,12 +126,25 @@ public class Main {
         }
     }
 
-    private static void handlePwd() {
-        System.out.println(pwd);
+    private static void handlePwd(String input) {
+        String pwdSubString = input.substring(4).trim();
+
+        if (pwdSubString.equals("-help")){
+            System.out.println("Usage: pwd");
+            System.out.println("Pwd: See where you are in the file system.");
+        }else {
+            System.out.println(pwd);
+        }
     }
 
     private static void handleCd(String input) {
         String dir = input.substring(3).trim();
+
+        if (dir.equals("-help")){
+            System.out.println("Usage: cd <directory>");
+            System.out.println("Cd: Change the current working directory.");
+            return;
+        }
 
         try {
             if (dir.startsWith("./")) {
@@ -128,6 +172,13 @@ public class Main {
 
     private static void handleCat(String input) {
         String[] argsArray = input.substring(4).trim().split(" ");
+
+        if (argsArray.length == 1 && argsArray[0].equals("-help")){
+            System.out.println("Usage: cat <file1> <file2> ...");
+            System.out.println("Cat: Display contents of files.");
+            return;
+        }
+
         for (String fileName : argsArray) {
             if ((fileName.startsWith("'") && fileName.endsWith("'")) || (fileName.startsWith("\"") && fileName.endsWith("\""))) {
                 fileName = fileName.substring(1, fileName.length() - 1);
@@ -147,7 +198,15 @@ public class Main {
         }
     }
 
-    private static void handleLs() {
+    private static void handleLs(String input) {
+        String lsSubString = input.substring(2).trim();
+
+        if (lsSubString.equals("-help")){
+            System.out.println("Usage: ls");
+            System.out.println("Ls: List files and directories.");
+            return;
+        }
+
         File directory = new File(pwd);
         File[] files = directory.listFiles();
 
@@ -158,113 +217,164 @@ public class Main {
                 } else {
                     System.out.printf("%s\n\n", file.getName());
                 }
-
-                
             }
         }
     }
 
-    private static void handleTouch(String input){
-        String command = input.substring(6);
-        File file = new File(pwd+File.separator+command);
+    private static void handleTouch(String input) {
+        String command = input.substring(6).trim();
+
+        if (command.equals("-help")) {
+            System.out.println("Usage: touch <filename>");
+            System.out.println("Touch: Create an empty file in the current directory.");
+            return;
+        }
+
+        File file = new File(pwd + File.separator + command);
         try {
             boolean isFileCreated = file.createNewFile();
             if (isFileCreated) {
                 System.out.println("File Created Successfully.");
-            }else{
-                System.out.println("File already exists or an error occured");
+            } else {
+                System.out.println("File already exists or an error occurred.");
             }
-        }catch(Exception e){
-
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static void handleMkdir(String input){
-        String dirname = input.substring(6);
-        String cwd = pwd+File.separator+dirname;
+    private static void handleMkdir(String input) {
+        String dirname = input.substring(6).trim();
+
+        if (dirname.equals("-help")) {
+            System.out.println("Usage: mkdir <directory_name>");
+            System.out.println("Mkdir: Create a new directory in the current directory.");
+            return;
+        }
+
+        String cwd = pwd + File.separator + dirname;
         File dir = new File(cwd);
         boolean isDirectoryCreated = dir.mkdir();
         if (isDirectoryCreated) {
             System.out.println("Directory created Successfully!");
-        }else{
-            System.out.println("Failed to Directory!");
+        } else {
+            System.out.println("Failed to create Directory!");
         }
     }
 
-    private static void handleRm(String input){
-        String fname = input.substring(3);
-        Path file = Paths.get(pwd+File.separator+fname);
-        try{
-            Files.delete(file);    
-        }catch(Exception e){
-                System.out.println(e+fname);
+    private static void handleRm(String input) {
+        String fname = input.substring(3).trim();
+
+        if (fname.equals("-help")) {
+            System.out.println("Usage: rm <filename>");
+            System.out.println("Rm: Remove a file from the current directory.");
+            return;
         }
-        
+
+        Path file = Paths.get(pwd + File.separator + fname);
+        try {
+            Files.delete(file);
+            System.out.println("File deleted successfully.");
+        } catch (Exception e) {
+            System.out.println("Error: Unable to delete " + fname + ". " + e.getMessage());
+        }
     }
 
-    private static void handleMv(String input){
-        String[] fname = input.substring(3).split(" ");
-        if (fname.length>2) {
+    private static void handleMv(String input) {
+        String[] fname = input.substring(3).trim().split(" ");
+
+        if (fname[0].equals("-help")) {
+            System.out.println("Usage: mv <source> <destination>");
+            System.out.println("Mv: Move or rename a file/directory to a new location.");
+            return;
+        }
+
+        if (fname.length > 2) {
             System.out.println("mv: can't pass more than 2 parameters");
             return;
         }
-        Path existPath = Paths.get(pwd+File.separator+fname[0]);
+
+        Path existPath = Paths.get(pwd + File.separator + fname[0]);
         if (fname[1].startsWith("./")) {
-            fname[1] = pwd+fname[1].subSequence(1, fname[1].length());
+            fname[1] = pwd + fname[1].substring(1);
         }
-        Path newPath = Paths.get(fname[1]+File.separator+fname[0]);
-        if (newPath!=null) {
+        Path newPath = Paths.get(fname[1] + File.separator + fname[0]);
+        if (newPath != null) {
             try {
                 Files.move(existPath, newPath);
+                System.out.println("Moved successfully.");
             } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
-        }else{
-            System.out.println("There is no such directory :"+newPath);
+        } else {
+            System.out.println("There is no such directory: " + newPath);
         }
-
     }
 
-    private static void handleRename(String input){
-        String[] fname = input.substring(7).split(" ");
-        File file = new File(pwd+File.separator+fname[0]);
-        File rename = new File(pwd+File.separator+fname[1]);
+    private static void handleRename(String input) {
+        String[] fname = input.substring(7).trim().split(" ");
+
+        if (fname[0].equals("-help")) {
+            System.out.println("Usage: rename <old_name> <new_name>");
+            System.out.println("Rename: Rename a file or directory in the current directory.");
+            return;
+        }
+
+        File file = new File(pwd + File.separator + fname[0]);
+        File rename = new File(pwd + File.separator + fname[1]);
 
         boolean isRenamed = file.renameTo(rename);
-        if (isRenamed){
+        if (isRenamed) {
             System.out.println("File Renamed Successfully!");
-        } else{
-            System.out.println("File already exists or an error occurred");
+        } else {
+            System.out.println("File already exists or an error occurred.");
         }
     }
 
-    private static void handleCp(String input){
-        String[] fname = input.substring(3).split(" ");
-        if(fname.length>2){
+    private static void handleCp(String input) {
+        String[] fname = input.substring(3).trim().split(" ");
+
+        if (fname[0].equals("-help")) {
+            System.out.println("Usage: cp <source> <destination>");
+            System.out.println("Cp: Copy a file to a new location.");
+            return;
+        }
+
+        if (fname.length > 2) {
             System.out.println("cp: can't pass more than 2 parameters");
             return;
         }
-        Path existingFile = Paths.get(pwd+File.separator+fname[0]);
-        Path newFile = Paths.get(pwd+File.separator+fname[1]);
+
+        Path existingFile = Paths.get(pwd + File.separator + fname[0]);
+        Path newFile = Paths.get(pwd + File.separator + fname[1]);
         try {
             File readFile = new File(existingFile.toString());
             FileWriter writer = new FileWriter(newFile.toString());
             Scanner scanner = new Scanner(readFile);
 
-            while (scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
-                writer.write(data);
+                writer.write(data + "\n");
             }
             scanner.close();
             writer.close();
+            System.out.println("File copied successfully.");
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
-    private static void handleClear(String input){
+    private static void handleClear(String input) {
+        if (input.trim().equals("clear -help")) {
+            System.out.println("Usage: clear");
+            System.out.println("Clear: Clear the console screen.");
+            return;
+        }
+
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+
 
     private static void handleExternalCommand(String input) throws IOException {
         String command = input.split(" ")[0];
