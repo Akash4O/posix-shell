@@ -1,3 +1,4 @@
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -5,12 +6,11 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.File;
-import java.io.IOException;
+import java.io.FileReader;
 
 public class Main {
     private static String pwd = Paths.get("").toAbsolutePath().toString();
-    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv","rename"};
+    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv","rename","cp"};
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -43,6 +43,8 @@ public class Main {
                 handleMv(input);
             } else if (input.startsWith("rename")) {
                 handleRename(input);
+            } else if (input.startsWith("cp")) {
+                handleCp(input);
             } else{
                 handleExternalCommand(input);
             }
@@ -234,7 +236,27 @@ public class Main {
     }
 
     private static void handleCp(String input){
-        
+        String[] fname = input.substring(3).split(" ");
+        if(fname.length>2){
+            System.out.println("cp: can't pass more than 2 parameters");
+            return;
+        }
+        Path existingFile = Paths.get(pwd+File.separator+fname[0]);
+        Path newFile = Paths.get(pwd+File.separator+fname[1]);
+        try {
+            File readFile = new File(existingFile.toString());
+            FileWriter writer = new FileWriter(newFile.toString());
+            Scanner scanner = new Scanner(readFile);
+
+            while (scanner.hasNextLine()){
+                String data = scanner.nextLine();
+                writer.write(data);
+            }
+            scanner.close();
+            writer.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     private static void handleExternalCommand(String input) throws IOException {
