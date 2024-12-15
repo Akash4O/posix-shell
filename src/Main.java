@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
     private static String pwd = Paths.get("").toAbsolutePath().toString();
-    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv"};
+    private static final String[] commands = {"echo", "exit", "type", "pwd", "cd", "cat", "ls","touch","rm","mkdir","mv","rename"};
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
@@ -31,7 +31,7 @@ public class Main {
                 handleCd(input);
             } else if (input.startsWith("cat")) {
                 handleCat(input);
-            } else if (input.startsWith("ls") || input.equals("ls")) {
+            } else if (input.startsWith("ls")) {
                 handleLs();
             } else if (input.startsWith("touch")) {
                 handleTouch(input);
@@ -41,7 +41,9 @@ public class Main {
                 handleMkdir(input);
             }else if (input.startsWith("mv")) {
                 handleMv(input);
-            }else{
+            } else if (input.startsWith("rename")) {
+                handleRename(input);
+            } else{
                 handleExternalCommand(input);
             }
         }
@@ -216,6 +218,23 @@ public class Main {
             System.out.println("There is no such directory :"+newPath);
         }
 
+    }
+
+    private static void handleRename(String input){
+        String[] fname = input.substring(7).split(" ");
+        File file = new File(pwd+File.separator+fname[0]);
+        File rename = new File(pwd+File.separator+fname[1]);
+
+        boolean isRenamed = file.renameTo(rename);
+        if (isRenamed){
+            System.out.println("File Renamed Successfully!");
+        } else{
+            System.out.println("File already exists or an error occured");
+        }
+    }
+
+    private static void handleCp(String input){
+        
     }
 
     private static void handleExternalCommand(String input) throws IOException {
