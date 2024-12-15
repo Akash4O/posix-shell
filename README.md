@@ -1,238 +1,219 @@
-# POSIX Shell Implementation in Java 🚀
 
-Welcome to the **POSIX Shell** project! This simple shell implementation, written in **Java**, mimics the behavior of a POSIX-like shell, providing essential commands like `echo`, `pwd`, `cd`, `cat`, `ls`, and more. Whether you're an aspiring developer or just looking to explore how shells work, this project is a great way to get hands-on experience!
+# POSIX Shell Implementation in Java 🚀  
 
-## 🌟 Features
-
-This Java-based POSIX shell supports a variety of core commands:
-
-- **Echo**: Display messages with ease.
-- **Pwd**: See where you are in the file system.
-- **Cd**: Navigate through directories like a pro.
-- **Cat**: View file contents instantly.
-- **Ls**: List files and directories in your current location.
-- **Touch**: Create new files effortlessly.
-- **Mkdir**: Generate directories for your projects.
-- **Rm**: Remove files with a single command.
-- **Mv**: Move or rename files and directories.
-- **Type**: Quickly identify if a command is internal or external.
-- **Exit**: Close the shell gracefully.
-
-## 📜 Supported Commands
-
-Here are the basic commands you can use within the shell:
-
-### 1. **`echo [text]`** - Display a message
-Easily print messages or variables to the terminal.
-
-```bash
-$ echo "Hello, World!"
-Hello, World!
-```
-
-### 2. **`pwd`** - Print Working Directory
-This command shows the full path of your current directory.
-
-```bash
-$ pwd
-/Users/username
-```
-
-### 3. **`cd [directory]`** - Change Directory
-Move between directories with ease.
-
-```bash
-$ cd /path/to/directory
-$ pwd
-/path/to/directory
-```
-
-### 4. **`cat [file]`** - Concatenate (Display) File Content
-Quickly view the contents of a file.
-
-```bash
-$ cat file.txt
-This is the content of the file.
-```
-
-### 5. **`ls`** - List Directory Contents
-Get a list of files and directories in the current location.
-
-```bash
-$ ls
-file1.txt  file2.txt  directory1
-```
-
-### 6. **`touch [filename]`** - Create a New File
-Create a new empty file with a simple command.
-
-```bash
-$ touch newfile.txt
-New file created successfully!
-```
-
-### 7. **`mkdir [directory]`** - Make a New Directory
-Easily create new directories for organizing your files.
-
-```bash
-$ mkdir newdir
-Directory created successfully!
-```
-
-### 8. **`rm [filename]`** - Remove a File
-Delete files with a single command.
-
-```bash
-$ rm file1.txt
-file1.txt deleted successfully.
-```
-
-### 9. **`mv [source] [destination]`** - Move or Rename Files
-Move files to new locations or rename them.
-
-```bash
-$ mv file1.txt newdir/
-$ ls newdir
-file1.txt
-```
-
-### 10. **`type [command]`** - Identify Command Type
-Find out whether a command is built-in or external.
-
-```bash
-$ type ls
-ls is a shell builtin
-```
-
-### 11. **`exit`** - Exit the Shell
-Exit gracefully from the shell.
-
-```bash
-$ exit 0
-```
+Welcome to the **POSIX Shell** project! This lightweight, Java-based shell brings the functionality of a POSIX-like environment to your fingertips. Whether you’re a programming enthusiast, a systems student, or just curious about shell scripting, this project is a perfect starting point! 🌟  
 
 ---
 
-## 🛠️ How to Use
+## 🌟 Features  
 
-### Usage Examples
+### 🎯 Core Functionality  
+This shell supports a range of essential POSIX-like commands:  
+- **`echo`**: Print messages or variables 🗨️.  
+- **`pwd`**: Show the current directory path 📂.  
+- **`cd`**: Navigate directories effortlessly 🌐.  
+- **`cat`**: View the content of files 📖.  
+- **`ls`**: List directory contents 🗃️.  
+- **`touch`**: Create new files 📝.  
+- **`mkdir`**: Create directories 📁.  
+- **`rm`**: Remove files or directories 🗑️.  
+- **`mv`**: Move or rename files and directories 🔄.  
+- **`type`**: Identify whether a command is built-in or external 🔍.  
+- **`exit 0`**: Exit the shell gracefully 🚪.  
 
-Here are individual examples showing how to use each command:
+### 🆕 New Features  
+- **`cp [source] [destination]`**: Copy files effortlessly 📤.  
+   ```bash
+   $ cp file.txt /new/location
+   File copied successfully!
+   ```
+- **`rename [oldName] [newName]`**: Rename files directly 📑.
+   ```bash
+   $ rename oldfile.txt newfile.txt
+   File renamed successfully!
+   ```
+- **`clear`**: Clear the terminal screen 🧹.
+   ```bash
+   $ clear
+   ```
+- **Enhanced Help System**: Use `--help` with any command for detailed guidance.
+   ```bash
+   $ ls --help
+   Usage: ls [options]
+   Lists files and directories.
+   ```
 
-#### 1. `echo` Command
-Use `echo` to display text in the terminal.
+---
 
+## 📜 Supported Commands
+
+### 1️⃣ **`echo [text]`**
+Print messages or variables:
 ```bash
 $ echo "Hello, World!"
 Hello, World!
-```
+```  
 
-#### 2. `pwd` Command
-Display your current directory with `pwd`.
-
+### 2️⃣ **`pwd`**
+Display the current directory:
 ```bash
 $ pwd
-/Users/username
-```
+/home/user
+```  
 
-#### 3. `cd` Command
-Navigate to a different directory with `cd`.
-
+### 3️⃣ **`cd [directory]`**
+Navigate between directories:
 ```bash
 $ cd /path/to/directory
-$ pwd
-/path/to/directory
-```
+```  
 
-#### 4. `cat` Command
-View the contents of a file with `cat`.
-
-```bash
-$ cat file.txt
-This is the content of the file.
-```
-
-#### 5. `ls` Command
-List all files and directories in the current directory.
-
+### 4️⃣ **`ls`**
+List files and directories:
 ```bash
 $ ls
-file1.txt  file2.txt  directory1
-```
+file1.txt  file2.txt  folder/
+```  
 
-#### 6. `touch` Command
-Create a new empty file with `touch`.
+### 5️⃣ **`cat [file]`**
+View the content of a file:
+```bash
+$ cat file.txt
+This is a sample file.
+```  
 
+### 6️⃣ **`touch [filename]`**
+Create a new file:
 ```bash
 $ touch newfile.txt
 File created successfully.
-```
+```  
 
-#### 7. `mkdir` Command
-Make a new directory with `mkdir`.
-
+### 7️⃣ **`mkdir [directory]`**
+Create a directory:
 ```bash
-$ mkdir newdir
+$ mkdir new_folder
 Directory created successfully.
-```
+```  
 
-#### 8. `rm` Command
-Delete a file with `rm`.
-
+### 8️⃣ **`rm [filename]`**
+Remove a file or directory:
 ```bash
-$ rm file1.txt
-File1.txt deleted successfully.
-```
+$ rm file.txt
+File deleted successfully.
+```  
 
-#### 9. `mv` Command
-Move a file to another directory with `mv`.
-
+### 9️⃣ **`mv [source] [destination]`**
+Move or rename files/directories:
 ```bash
-$ mv file1.txt newdir/
-$ ls newdir
-file1.txt
-```
+$ mv file1.txt new_folder/
+```  
 
-#### 10. `type` Command
-Check whether a command is built-in or external.
+### 🔟 **`cp [source] [destination]`**
+Copy a file:
+```bash
+$ cp file.txt backup/
+File copied successfully!
+```  
 
+### 1️⃣1️⃣ **`rename [oldName] [newName]`**
+Rename files directly:
+```bash
+$ rename oldfile.txt newfile.txt
+```  
+
+### 1️⃣2️⃣ **`clear`**
+Clear the terminal screen:
+```bash
+$ clear
+```  
+
+### 1️⃣3️⃣ **`type [command]`**
+Check if a command is built-in or external:
 ```bash
 $ type ls
 ls is a shell builtin
-```
+```  
 
-#### 11. `exit` Command
-Exit the shell using the `exit` command.
-
+### 1️⃣4️⃣ **`exit 0`**
+Close the shell gracefully:
 ```bash
-$ exit
-```
+$ exit 0
+```  
 
 ---
 
 ## ⚠️ Error Handling
 
-- **Moving Files**: If you try to pass more than two arguments to the `mv` command, the shell will display an error:
-  - Example: `mv: can't pass more than 2 parameters`
-- **Directory Issues**: If a directory does not exist when using commands like `mv`, you'll get an error message:
-  - Example: `There is no such directory: [path]`
+This shell has robust error handling:
+- **Invalid Commands**: Suggestions provided for common typos.
+- **Missing Files/Directories**: Alerts if paths or files don’t exist.
+- **Syntax Errors**: Detailed usage hints provided for incorrect syntax.
+
+---
 
 ## 📦 Installation
 
-1. **Clone the Repository**: Start by cloning the repo to your local machine.
+### Prerequisites
+Ensure **Java 8+** is installed on your system.
 
+### Steps to Install
+1. **Clone the Repository**
    ```bash
    git clone https://github.com/yourusername/posix-shell.git
-   ```
+   cd posix-shell
+   ```  
 
-2. **Compile the Code**: Next, compile the Java files using the `javac` command.
-
+2. **Compile the Code**
    ```bash
    javac Main.java
-   ```
+   ```  
 
-3. **Run the Shell**: Finally, execute the compiled code with the `java` command.
-
+3. **Run the Shell**
    ```bash
    java Main
-   ```
+   ```  
+
+---
+
+## 🎮 Usage
+
+Simply type any supported command and press **Enter** ⏎ to execute.
+
+### Example Session:
+```bash
+$ pwd
+/home/user
+
+$ mkdir test
+Directory created successfully.
+
+$ touch file1.txt
+File created successfully.
+
+$ ls
+file1.txt  test/
+
+$ mv file1.txt test/
+$ ls test
+file1.txt
+
+$ exit 0
+Goodbye!
+```  
+
+Use `--help` with any command for detailed guidance!
+
+---
+## 📞 Contact
+
+For queries or feedback, connect with us:
+- **Null Baba**
+- Email: [akashkolde342@gmail.com](mailto:akashkolde342@gmail.com)
+
+
+---
+
+🌟 **Happy Shell-ing!** 🎉
+```  
+
+Let me know if any additional details or customizations are needed! 😊
